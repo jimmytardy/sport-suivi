@@ -1,0 +1,66 @@
+.navbar-cryptobot {
+    display: flex;
+    align-items: center;
+    color: #fa551c;
+    padding: 0 !important;
+
+    &.bg-dark {
+        background-color: #181437!important;
+    }
+    .container-fluid {
+        padding: 0 !important;
+        background-color: #181437;
+    }
+    .navbar-brand {
+        padding: 0;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        img {
+            margin-right: 1rem;
+            aspect-ratio: 4/1;
+            height: 50px;
+            @media screen {
+                @media (min-width: 400px) {
+                    height: 70px;
+                }
+                @media (min-width: 576px) {
+                    height: 88px;
+                }
+            }
+        }
+    }
+    .navbar-nav {
+        width: 100%;
+    }
+
+    .navbar-toggler {
+        color: #fa551c;
+        font-size: 2em;
+        border: 1px solid #fa551c;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: auto 1rem;
+    }
+
+    .navbar-body {
+        background-color: #181437;
+        z-index: 1000;
+        width: 100%;
+        border-radius: 0 0 15px 15px;
+
+        a {
+            color: #fa551c;
+
+            &:hover {
+                opacity: 0.8;
+                color: #eb3463;
+            }
+
+            &.active {
+                color: white !important;
+            }
+        }
+    }
+}
