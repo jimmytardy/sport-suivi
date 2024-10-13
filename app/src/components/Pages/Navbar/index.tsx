@@ -14,10 +14,13 @@ import MenuItem from '@mui/material/MenuItem'
 import AdbIcon from '@mui/icons-material/Adb'
 import { IPagesRouterProps } from '../pages.interface'
 import { useNavigate } from 'react-router'
+import { useAuth } from '../../../hooks/AuthContext'
+import SportsFootballOutlinedIcon from '@mui/icons-material/SportsFootballOutlined';
 
 const NavBar: React.FC<IPagesRouterProps> = ({ routes, onClickLogo }) => {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
-    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null)
+    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+    const { user } = useAuth()
     const navigate = useNavigate()
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget)
@@ -28,7 +31,7 @@ const NavBar: React.FC<IPagesRouterProps> = ({ routes, onClickLogo }) => {
 
     const handleCloseNavMenu = (path: string) => {
         setAnchorElNav(null)
-        navigate(path)
+        navigate(path.replace('/*', ''))
     }
 
     const handleCloseUserMenu = (path: string) => {
@@ -37,15 +40,14 @@ const NavBar: React.FC<IPagesRouterProps> = ({ routes, onClickLogo }) => {
     }
 
     return (
-        <AppBar position="static">
+        <AppBar position="static" sx={{ marginBottom: 5 }}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+                    <SportsFootballOutlinedIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
                     <Typography
                         variant="h6"
                         noWrap
                         component="a"
-                        href="#app-bar-with-responsive-menu"
                         sx={{
                             mr: 2,
                             display: { xs: 'none', md: 'flex' },
@@ -57,7 +59,7 @@ const NavBar: React.FC<IPagesRouterProps> = ({ routes, onClickLogo }) => {
                         }}
                         onClick={onClickLogo}
                     >
-                        LOGO
+                        Mon suivi sportif
                     </Typography>
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -115,9 +117,7 @@ const NavBar: React.FC<IPagesRouterProps> = ({ routes, onClickLogo }) => {
                     </Box>
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
-                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Photo de l'utilisateur" src="/static/images/avatar/2.jpg" />
-                            </IconButton>
+                        <Avatar alt="Photo de l'utilisateur" src={user.picture || "/static/images/avatar/2.jpg"} />
                         </Tooltip>
                         {/* <Menu
                             sx={{ mt: '45px' }}

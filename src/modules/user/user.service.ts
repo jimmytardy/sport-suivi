@@ -20,6 +20,14 @@ export class UserService {
         return await this.userModel.findById(id, select).lean()
     }
 
+    async findByExternalId(externalId: string | Types.ObjectId, select?: ProjectionType<User>): Promise<User | undefined> {
+        return await this.userModel.findOne({ externalId }, select).lean()
+    }
+
+    async findByExternalIdAndUpdate(externalId: string | Types.ObjectId, updated: User): Promise<User | undefined> {
+        return await this.userModel.findOneAndUpdate({ externalId }, { $set: updated }, { new: true, upsert: true  }).lean()
+    }
+
     async findAll(filter?: FilterQuery<User>, select?: ProjectionType<User>, options?: QueryOptions<User>): Promise<User[]> {
         this.logger.debug(`findAll: filter=${JSON.stringify(filter)}, select=${JSON.stringify(select)}, options=${JSON.stringify(options)}`)
         return await this.userModel.find(filter, select, options)
@@ -61,7 +69,7 @@ export class UserService {
     }
 
     async getProfile(user: User) {
-        const { password, ...userInfo } = user
+        const { externalId, _id, ...userInfo } = user
         return userInfo
     }
 }

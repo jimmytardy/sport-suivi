@@ -7,6 +7,8 @@ import { MongooseModule } from '@nestjs/mongoose'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import configuration from './config/configuration'
 import { ModulesModule } from './modules/modules.module'
+import { MulterModule } from '@nestjs/platform-express'
+import { multerModuleFactory } from './storage.config'
 
 @Module({
     imports: [
@@ -16,12 +18,17 @@ import { ModulesModule } from './modules/modules.module'
         }),
         MongooseModule.forRootAsync({
             imports: [ConfigModule],
-            useFactory: async (configService: ConfigService) => ({
+            useFactory: (configService: ConfigService) => ({
                 uri: configService.get<string>('database.uri'),
             }),
             inject: [ConfigService],
         }),
-        ModulesModule
+        MulterModule.registerAsync({
+            imports: [ConfigModule],
+            useFactory: multerModuleFactory,
+            inject: [ConfigService],
+        }),
+        ModulesModule,
     ],
     controllers: [AppController],
     providers: [AppService],

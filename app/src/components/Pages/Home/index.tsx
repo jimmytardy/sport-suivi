@@ -1,20 +1,19 @@
-import { useAuth } from "../../../hooks/AuthContext";
+import { Grid2 } from "@mui/material";
+import TeamList from "../Team/TeamList";
+import PlayerList from "../Player/PlayerList";
+import ActionTypeList from "../Action/ActionList";
 
 
-const Home: React.FC = () => {
-    const { user } = useAuth()
+export default function Home()  {
     return (
-      <Container fluid={true}>
-        <Row>
-          <Col sm={12} md={3}>
-            Home
-          </Col>
-          <Col sm={12} md={9}>
-            <Stats />
-          </Col>
-        </Row>
-      </Container >
-    );
-  };
-  
-  export default Home;
+        <Grid2 container>
+            <Grid2 size={{ xs: 12, sm: 5, lg: 3 }} >
+                <ActionTypeList />
+            </Grid2>
+            <Grid2 size={{ xs: 12, sm: 5, lg: 3 }} offset={{ sm: 1}}>
+                <PlayerList />
+            </Grid2>
+            <Grid2 size={{ xs: 12, sm: 12, lg: 3 }} offset={{ lg: 1}}></Grid2>
+        </Grid2>
+    )
+}

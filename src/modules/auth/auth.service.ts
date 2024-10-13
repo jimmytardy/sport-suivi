@@ -1,22 +1,23 @@
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common'
+import { HttpException, HttpStatus, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common'
 import { UserService } from '../user/user.service'
 import { JwtService } from '@nestjs/jwt'
 import { User } from 'src/models/User'
 import * as bcrypt from 'bcrypt'
 import { Types } from 'mongoose'
+import { ConfigService } from '@nestjs/config'
 
 @Injectable()
 export class AuthService {
     constructor(
         private userService: UserService,
         private jwtService: JwtService,
-    ) { }
+    ) {}
 
     async validateUser(email: string, password: string): Promise<User> {
-        const user = await this.userService.findByEmail(email, '+password');
+        const user = await this.userService.findByEmail(email, '+password')
         if (user && (await bcrypt.compare(password, user.password))) {
             const { password, ...result } = user
-            return result as User;
+            return result as User
         }
         return null
     }
@@ -37,5 +38,15 @@ export class AuthService {
             access_token: this.jwtService.sign(payload),
             success: true,
         }
+    }
+
+    async loginFromGoogle(googleUser) {
+        if (!googleUser) {
+            throw new HttpException('Google user not found', HttpStatus.NOT_FOUND)
+        }
+
+        const user = await this.userService.findByExternalIdAndUpdate(googleUser.externalId, googleUser)
+
+        return await this.login(user)
     }
 }

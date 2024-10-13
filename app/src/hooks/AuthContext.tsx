@@ -10,6 +10,7 @@ import axiosClient from '../axiosClient'
 import { useNavigate } from 'react-router'
 import { IUser } from '../interfaces/user.interface';
 import Loader from '../components/utils/Loader';
+import { useSearchParams } from 'react-router-dom';
 
 // Créez le contexte d'authentification
 const AuthContext = createContext({
@@ -22,6 +23,7 @@ const AuthContext = createContext({
 
 // Créez un composant fournisseur qui gérera l'état d'authentification
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
+    const [searchParams,] = useSearchParams();
     const [token, setStateToken] = useState<string | null>(null)
     const [user, setUser] = useState<IUser>({} as IUser);
     const [isConnected, setIsConnected] = useState<boolean>(false)
@@ -66,6 +68,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         const t = localStorage.getItem('token');
         if (t) {
             setToken(t);
+        } else if (searchParams.get('access_token')) {
+            setToken(searchParams.get('access_token') as string);
         }
     }, []);
 

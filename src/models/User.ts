@@ -13,16 +13,19 @@ export class User {
     _id: Types.ObjectId
 
     @Prop({ required: true })
-    firstname: string
-
-    @Prop({ required: true })
-    lastname: string
+    name: string
 
     @Prop({ unique: true, require: true, index: true })
     email: string
 
     @Prop({ required: true, select: false })
-    password: string
+    password: string;
+
+    @Prop({ required: false })
+    picture: string;
+
+    @Prop({ required: true, select: false, index: true, unique: true })
+    externalId: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User)

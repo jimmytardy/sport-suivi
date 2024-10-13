@@ -7,7 +7,7 @@ export interface IPagesRouterProps {
 
 export interface IRoute {
     path: string
-    Component?: React.FC | ReactNode
+    Component?: React.FC<any> | ReactNode
     title?: string
     disabled?: boolean;
 }

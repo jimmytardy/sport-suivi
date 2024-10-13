@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router'
-import { IPagesRouterProps } from '../pages.interface';
-import NavBar from './Navbar';
+import NavBar from './Navbar'
+import { IPagesRouterProps } from './pages.interface'
+import { Container } from '@mui/material'
 
 const PrivateRouter = (props: IPagesRouterProps) => {
     return (
@@ -11,4 +12,4 @@ const PrivateRouter = (props: IPagesRouterProps) => {
     )
 }
 
-export default PrivateRouter;
+export default PrivateRouter
